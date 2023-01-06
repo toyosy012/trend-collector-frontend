@@ -52,12 +52,6 @@
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1"
   },
-  "compilerOptions": {
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true
-  },
   "prettier": {
     "jsxBracketSameLine": true,
     "printWidth": 80,
