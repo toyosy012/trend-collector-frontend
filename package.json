@@ -42,7 +42,8 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --cache --fix src && prettier --write src"
+      "eslint --cache --fix src",
+      "prettier --write"
     ]
   },
   "devDependencies": {
