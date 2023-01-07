@@ -39,8 +39,23 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## コードの静的解析 & フォーマット
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. 静的解析
+   * eslint
+2. フォーマット
+   * prettier
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+これらを併用するが、チェックルールが競合する恐れがあるのでeslint側に競合しないように設定
+
+```
+# 競合ルールの確認
+$ npx eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}'
+
+# 静的解析
+$ eslint --fix src
+```
+
+
+
+
