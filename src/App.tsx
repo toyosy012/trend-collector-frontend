@@ -1,24 +1,73 @@
 import React from 'react'
-import logo from 'logo.svg'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
 import 'App.css'
+import { container } from 'tsyringe'
+import TrendAPIClient from 'components/container/repositories/api/trend'
+import { APIResponse, TrendSummary } from './components/container/models/trend'
+import TrendService from './components/container/services/trend'
 
-const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>
-  </div>
-)
+container.register('TrendClient', { useClass: TrendAPIClient })
+const trendService = container.resolve<TrendService>('TrendClient')
+
+const App: React.FC = () => {
+  const [respTrendSummaries, setTrendSummaries] = React.useState<
+    TrendSummary[]
+  >([])
+  React.useEffect(() => {
+    async function indexTrendSummaries() {
+      return trendService.index_summary('v1/trends?page=1&counts=100')
+    }
+
+    indexTrendSummaries()
+      .then((r: APIResponse<TrendSummary[]>) =>
+        setTrendSummaries(r.data.result),
+      )
+      .catch()
+  }, [])
+
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="left" style={{ width: '10%' }}>
+              番号
+            </TableCell>
+            <TableCell align="center" style={{ width: '65%' }}>
+              トレンド名
+            </TableCell>
+            <TableCell align="center" style={{ width: '25%' }}>
+              取得日時
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {respTrendSummaries.map((row, index) => (
+            <TableRow
+              key={row.id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="left" style={{ width: '10%' }}>
+                {index + 1}
+              </TableCell>
+              <TableCell align="center" style={{ width: '65%' }}>
+                {row.name}
+              </TableCell>
+              <TableCell align="center" style={{ width: '25%' }}>
+                {row.updated_at}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
+}
 
 export default App
