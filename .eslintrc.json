@@ -51,6 +51,12 @@
                 ]
             }
         ],
+        "@typescript-eslint/no-floating-promises": [
+            "off",
+            {
+                "ignoreIIFE": true
+            }
+        ],
         "react/function-component-definition": [
             2,
             { "namedComponents": "arrow-function" }
@@ -95,7 +101,11 @@
         "unused-imports/no-unused-vars": [
             "warn",
             { "vars": "all", "varsIgnorePattern": "(^_|React)", "args": "after-used", "argsIgnorePattern": "^_" }
-        ]
+        ],
+        "no-underscore-dangle": [
+            "off", { "allow": ["*_", "_*"] }
+        ],
+        "max-classes-per-file": "off"
     },
     "settings": {
         "import/resolver": {
