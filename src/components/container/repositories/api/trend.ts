@@ -4,10 +4,10 @@ import {
   TrendSummary,
 } from 'components/container/models/trend'
 import axios, { AxiosInstance } from 'axios'
+import { singleton } from 'tsyringe'
 
+@singleton()
 class TrendAPIClient implements TrendClient {
-  private static _instance: TrendAPIClient
-
   private readonly _cli: AxiosInstance
 
   constructor() {
@@ -15,13 +15,6 @@ class TrendAPIClient implements TrendClient {
       baseURL: `http://localhost:8000`,
       timeout: 15000,
     })
-  }
-
-  public static instance(): TrendAPIClient {
-    if (!this._instance) {
-      this._instance = new TrendAPIClient()
-    }
-    return this._instance
   }
 
   index_summary(endpoint: string): Promise<APIResponse<TrendSummary[]>> {
