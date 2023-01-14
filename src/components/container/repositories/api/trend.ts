@@ -13,15 +13,18 @@ class TrendAPIClient implements TrendClient {
     })
   }
 
-  async indexSummary(endpoint: string): Promise<TrendSummary[]> {
-    const result = await this._cli.get<
-      TrendAPIResponse<TrendSummaryResponse[]>,
-      TrendAPIResponse<TrendSummaryResponse[]>,
-      AxiosRequestConfig<RequestData>
-    >(endpoint)
-    return result.data.result.map<TrendSummary>(
-      (r: TrendSummaryResponse) => new TrendSummary(r.id, r.name, r.updated_at),
-    )
+  indexSummary(endpoint: string): Promise<TrendSummary[]> {
+    return this._cli
+      .get<
+        TrendAPIResponse<Summary[]>,
+        TrendAPIResponse<Summary[]>,
+        AxiosRequestConfig<RequestData>
+      >(endpoint)
+      .then((resp: TrendAPIResponse<Summary[]>) =>
+        resp.data.result.map<TrendSummary>(
+          (r: Summary) => new TrendSummary(r.id, r.name, r.updated_at),
+        ),
+      )
   }
 }
 
@@ -37,7 +40,7 @@ interface Data<T> {
   result: T
 }
 
-export interface TrendSummaryResponse {
+export interface Summary {
   id: number
   name: string
   updated_at: string
