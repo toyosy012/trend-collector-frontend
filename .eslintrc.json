@@ -51,12 +51,7 @@
                 ]
             }
         ],
-        "@typescript-eslint/no-floating-promises": [
-            "off",
-            {
-                "ignoreIIFE": true
-            }
-        ],
+        "@typescript-eslint/no-empty-function": "off",
         "react/function-component-definition": [
             2,
             { "namedComponents": "arrow-function" }
