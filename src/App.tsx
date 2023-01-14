@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper'
 import 'App.css'
 import { container } from 'tsyringe'
 import TrendAPIClient from 'components/container/repositories/api/trend'
-import { APIResponse, TrendSummary } from './components/container/models/trend'
+import { TrendSummary } from './components/container/models/trend'
 import TrendService from './components/container/services/trend'
 
 container.register('TrendClient', { useClass: TrendAPIClient })
@@ -19,16 +19,14 @@ const App: React.FC = () => {
   const [respTrendSummaries, setTrendSummaries] = React.useState<
     TrendSummary[]
   >([])
-  React.useEffect(() => {
-    async function indexTrendSummaries() {
-      return trendService.index_summary('v1/trends?page=1&counts=100')
-    }
 
-    indexTrendSummaries()
-      .then((r: APIResponse<TrendSummary[]>) =>
-        setTrendSummaries(r.data.result),
-      )
-      .catch()
+  React.useEffect(() => {
+    trendService
+      .indexSummary('v1/trends?page=1&counts=100')
+      .then((r: TrendSummary[]) => {
+        setTrendSummaries(r)
+      })
+      .catch((_) => {})
   }, [])
 
   return (
@@ -60,7 +58,7 @@ const App: React.FC = () => {
                 {row.name}
               </TableCell>
               <TableCell align="center" style={{ width: '25%' }}>
-                {row.updated_at}
+                {row.updatedAt}
               </TableCell>
             </TableRow>
           ))}
