@@ -1,5 +1,5 @@
 import { TrendClient, TrendSummary } from 'components/container/models/trend'
-import axios, { AxiosHeaders, AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import { singleton } from 'tsyringe'
 
 @singleton()
@@ -15,21 +15,13 @@ class TrendAPIClient implements TrendClient {
 
   indexSummary(endpoint: string): Promise<TrendSummary[]> {
     return this._cli
-      .get<
-        TrendAPIResponse<Summary[]>,
-        TrendAPIResponse<Summary[]>,
-        AxiosRequestConfig<RequestData>
-      >(endpoint)
+      .get(endpoint)
       .then((resp: TrendAPIResponse<Summary[]>) =>
         resp.data.result.map<TrendSummary>(
           (r: Summary) => new TrendSummary(r.id, r.name, r.updated_at),
         ),
       )
   }
-}
-
-interface RequestData {
-  header: AxiosHeaders
 }
 
 export interface TrendAPIResponse<T> {
