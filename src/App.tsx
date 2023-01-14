@@ -1,33 +1,33 @@
-import React from 'react'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import 'App.css'
-import { container } from 'tsyringe'
-import TrendAPIClient from 'components/container/repositories/api/trend'
-import { TrendSummary } from './components/container/models/trend'
-import TrendService from './components/container/services/trend'
+import React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import 'App.css';
+import { container } from 'tsyringe';
+import TrendAPIClient from 'components/container/repositories/api/trend';
+import { TrendSummary } from './components/container/models/trend';
+import TrendService from './components/container/services/trend';
 
-container.register('TrendClient', { useClass: TrendAPIClient })
-const trendService = container.resolve<TrendService>('TrendClient')
+container.register('TrendClient', { useClass: TrendAPIClient });
+const trendService = container.resolve<TrendService>('TrendClient');
 
 const App: React.FC = () => {
   const [respTrendSummaries, setTrendSummaries] = React.useState<
     TrendSummary[]
-  >([])
+  >([]);
 
   React.useEffect(() => {
     trendService
       .indexSummary('v1/trends?page=1&counts=100')
       .then((r: TrendSummary[]) => {
-        setTrendSummaries(r)
+        setTrendSummaries(r);
       })
-      .catch((_) => {})
-  }, [])
+      .catch((_) => {});
+  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -65,7 +65,7 @@ const App: React.FC = () => {
         </TableBody>
       </Table>
     </TableContainer>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -6,18 +6,18 @@ export class TrendSummary {
   ) {}
 
   get id(): number {
-    return this._id
+    return this._id;
   }
 
   get name(): string {
-    return this._name
+    return this._name;
   }
 
   get updatedAt(): string {
-    return this._updatedAt
+    return this._updatedAt;
   }
 }
 
 export interface TrendClient {
-  indexSummary(endpoint: string): Promise<TrendSummary[]>
+  indexSummary(endpoint: string): Promise<TrendSummary[]>;
 }
