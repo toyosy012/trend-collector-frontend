@@ -1,17 +1,23 @@
-export interface TrendSummary {
-  id: number
-  name: string
-  updated_at: string
+export class TrendSummary {
+  constructor(
+    private readonly _id: number,
+    private readonly _name: string,
+    private readonly _updatedAt: string,
+  ) {}
+
+  get id(): number {
+    return this._id
+  }
+
+  get name(): string {
+    return this._name
+  }
+
+  get updatedAt(): string {
+    return this._updatedAt
+  }
 }
 
 export interface TrendClient {
-  index_summary(endpoint: string): Promise<APIResponse<TrendSummary[]>>
-}
-
-export interface APIResponse<T> {
-  data: Data<T>
-}
-
-interface Data<T> {
-  result: T
+  indexSummary(endpoint: string): Promise<TrendSummary[]>
 }
