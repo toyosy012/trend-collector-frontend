@@ -1,3 +1,5 @@
+import { Either } from 'fp-ts/lib/Either';
+
 export class TrendSummary {
   constructor(
     private readonly _id: number,
@@ -42,5 +44,7 @@ export class DomainError implements ErrorResponse {
 }
 
 export interface TrendClient {
-  indexSummary(endpoint: string): Promise<TrendSummary[]>;
+  indexSummary(
+    endpoint: string,
+  ): Promise<Either<ErrorResponse, TrendSummary[]>>;
 }
