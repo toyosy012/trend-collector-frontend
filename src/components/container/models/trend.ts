@@ -18,6 +18,29 @@ export class TrendSummary {
   }
 }
 
+export interface ErrorResponse {
+  get message(): string | undefined;
+}
+
+export class SystemError implements ErrorResponse {
+  constructor(private readonly _message: string | undefined) {}
+
+  get message(): string | undefined {
+    return this._message;
+  }
+}
+
+export class DomainError implements ErrorResponse {
+  constructor(
+    private readonly _message: string,
+    private readonly _requestID: string,
+  ) {}
+
+  get message(): string {
+    return `${this._message}, Request ID: ${this._requestID}`;
+  }
+}
+
 export interface TrendClient {
   indexSummary(endpoint: string): Promise<TrendSummary[]>;
 }
