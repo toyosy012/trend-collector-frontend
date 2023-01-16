@@ -1,5 +1,11 @@
-import { TrendClient, TrendSummary } from 'components/container/models/trend';
-import axios, { AxiosInstance } from 'axios';
+import {
+  DomainError,
+  ErrorResponse,
+  SystemError,
+  TrendClient,
+  TrendSummary,
+} from 'components/container/models/trend';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import { singleton } from 'tsyringe';
 import { Either, left, right } from 'fp-ts/lib/Either';
 
@@ -12,6 +18,20 @@ class TrendAPIClient implements TrendClient {
       baseURL: `http://localhost:8000`,
       timeout: 15000,
     });
+
+    // インスタンス初期化時にインターセプター処理を渡せなさそう
+    this._cli.interceptors.response.use(
+      (response) => response,
+      (e: AxiosError<APIErrorResponse>) =>
+        Promise.reject(
+          e.response
+            ? new DomainError(
+                e.response.data.message,
+                e.response.data.request_id,
+              )
+            : new SystemError(e.message),
+        ),
+    );
   }
 
   indexSummary(
