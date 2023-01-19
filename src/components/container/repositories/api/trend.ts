@@ -11,7 +11,7 @@ import { Either, left, right } from 'fp-ts/lib/Either';
 
 @singleton()
 class TrendAPIClient implements TrendClient {
-  private readonly _cli: AxiosInstance;
+  private _cli: AxiosInstance;
 
   constructor() {
     this._cli = axios.create({
